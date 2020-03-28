@@ -47,6 +47,7 @@ So, I give you [Zettel.vim](https://github.com/Aarleks/zettel.vim). It's a work-
 This site is written in ` markdown ` and ` css `, and converted to html with the amazing tool, [pandoc](https://pandoc.org/).
 
 * **Font**: IBM Plex Mono
-* **CSS**: I've borrowed liberally from [Edwin Wenink](https://tilde.club/~ejw/)'s `tilde.club` website.
+* **CSS**: I've borrowed liberally from [Edwin Wenink](https://tilde.club/~ejw/)'s `tilde.club` website
+* **Code**: Code for this site can be found on my [Github](https://github.com/Aarleks/tilde)
 
-As of 28 March, 2020, the whole site consists of a single markdown document only. My aim is to keep this site as simple as possible.
+As of 28 March, 2020, the whole site consists of only two markdown documents and a css file. My aim is to keep this site as simple as possible.
