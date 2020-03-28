@@ -16,8 +16,9 @@ I'm in the process of starting to develop a collection of resources for research
 
 I'm mainly interested in free and open-source tools, and in plain text writing practices. In this I've been influenced by a people like:
 
-* Kieran Healy
-*
+* [Kieran Healy](https://kieranhealy.org/)
+* [Yihui Xie](https://yihui.org/)
+* [Caleb McDaniel](http://wcaleb.org/)
 
 If you have any suggestions for tools, resources, or stuff I should read, please let me know.
 
