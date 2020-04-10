@@ -6,7 +6,7 @@ I'm a senior lecturer in the Graduate Research School at Western Sydney Universi
 
 # My research
 
-My research interest is generally around meaning, purpose, and identity. I'm mainly interested what I call [spiritual tourism](https://www.bloomsbury.com/us/spiritual-tourism-9781441150448/) and in the sociological and cultural factors that affect travel involving visits to religious sites. With colleagues in the [Shamatha Project](http://saronlab.ucdavis.edu/shamatha-project.html) I also research the socio-bio-physical aspects of contemplative practices such as meditation. And with my colleague, Jack Tsonis, I'm researching [sauna practices](https://www.westernsydney.edu.au/thri/research/health,_culture_and_society/sauna_studies).
+My research interest is generally around meaning, purpose, and identity. I'm mainly interested what I call [spiritual tourism](https://www.bloomsbury.com/us/spiritual-tourism-9781441150448/) and in the sociological and cultural factors that affect travel involving visits to religious sites. With colleagues in the [Shamatha Project](https://saronlab.ucdavis.edu/shamatha-project.html) I also research the socio-bio-physical aspects of contemplative practices such as meditation. And with my colleague, Jack Tsonis, I'm researching [sauna practices](https://www.westernsydney.edu.au/thri/research/health,_culture_and_society/sauna_studies).
 
 In addition, my teaching duties the Master of Research have ignited a research interest in writing as a tool of thought, and in research itself as a thing humans do.
 
