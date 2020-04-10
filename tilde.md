@@ -18,7 +18,7 @@ I'm mainly interested in free and open-source tools, and in plain text writing p
 
 * [Kieran Healy](https://kieranhealy.org/)
 * [Yihui Xie](https://yihui.org/)
-* [Caleb McDaniel](http://wcaleb.org/)
+* [Caleb McDaniel](https://wcaleb.org/)
 
 If you have any suggestions for tools, resources, or stuff I should read, please let me know.
 

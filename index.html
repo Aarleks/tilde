@@ -7,10 +7,12 @@
   <meta name="author" content="Alex Norman" />
   <title>~acn</title>
   <style>
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      span.underline{text-decoration: underline;}
-      div.column{display: inline-block; vertical-align: top; width: 50%;}
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
   </style>
   <link rel="stylesheet" href="tilde.css" />
   <!--[if lt IE 9]>
@@ -26,35 +28,36 @@
 <ul>
 <li><a href="#who-am-i"><span class="toc-section-number">1</span> Who am I</a></li>
 <li><a href="#my-research"><span class="toc-section-number">2</span> My research</a></li>
-<li><a href="#while-youre-here"><span class="toc-section-number">3</span> While you’re here</a><ul>
+<li><a href="#while-youre-here"><span class="toc-section-number">3</span> While you’re here</a>
+<ul>
 <li><a href="#a-zettelkasten-with-vim"><span class="toc-section-number">3.1</span> A Zettelkasten with Vim</a></li>
 </ul></li>
 <li><a href="#contact"><span class="toc-section-number">4</span> Contact</a></li>
 <li><a href="#colophon"><span class="toc-section-number">5</span> Colophon</a></li>
 </ul>
 </nav>
-<section id="who-am-i" class="level1">
-<h1><span class="header-section-number">1</span> Who am I</h1>
+<section id="who-am-i" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Who am I</h1>
 <p>I’m Alex Norman</p>
 <p>I’m a senior lecturer in the Graduate Research School at Western Sydney University where my primary role is directing the <a href="https://www.westernsydney.edu.au/graduate_research_school/grs/courses/master_of_research">Master of Research</a> programme and co-delivering its core units on writing for research, the sociology of research, and on public audience writing.</p>
 </section>
-<section id="my-research" class="level1">
-<h1><span class="header-section-number">2</span> My research</h1>
+<section id="my-research" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> My research</h1>
 <p>My research interest is generally around meaning, purpose, and identity. I’m mainly interested what I call <a href="https://www.bloomsbury.com/us/spiritual-tourism-9781441150448/">spiritual tourism</a> and in the sociological and cultural factors that affect travel involving visits to religious sites. With colleagues in the <a href="http://saronlab.ucdavis.edu/shamatha-project.html">Shamatha Project</a> I also research the socio-bio-physical aspects of contemplative practices such as meditation. And with my colleague, Jack Tsonis, I’m researching <a href="https://www.westernsydney.edu.au/thri/research/health,_culture_and_society/sauna_studies">sauna practices</a>.</p>
 <p>In addition, my teaching duties the Master of Research have ignited a research interest in writing as a tool of thought, and in research itself as a thing humans do.</p>
 </section>
-<section id="while-youre-here" class="level1">
-<h1><span class="header-section-number">3</span> While you’re here</h1>
+<section id="while-youre-here" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> While you’re here</h1>
 <p>I’m in the process of starting to develop a collection of resources for researchers focussing on writing and data collection and analysis.</p>
 <p>I’m mainly interested in free and open-source tools, and in plain text writing practices. In this I’ve been influenced by a people like:</p>
 <ul>
 <li><a href="https://kieranhealy.org/">Kieran Healy</a></li>
 <li><a href="https://yihui.org/">Yihui Xie</a></li>
-<li><a href="http://wcaleb.org/">Caleb McDaniel</a></li>
+<li><a href="https://wcaleb.org/">Caleb McDaniel</a></li>
 </ul>
 <p>If you have any suggestions for tools, resources, or stuff I should read, please let me know.</p>
-<section id="a-zettelkasten-with-vim" class="level2">
-<h2><span class="header-section-number">3.1</span> A Zettelkasten with Vim</h2>
+<section id="a-zettelkasten-with-vim" class="level2" data-number="3.1">
+<h2 data-number="3.1"><span class="header-section-number">3.1</span> A Zettelkasten with Vim</h2>
 <p>I’ve always struggled with categorising my notes. When I moved from paper to electronic notes I started to struggle; I felt like I needed to ‘file’ things because that’s what you did with files on a computer. You put them in folders.</p>
 <p>The problem is my mind doesn’t work in folders; it works more like a network. This problem was mostly solved when I discovered wiki-style note-taking. For this, I used <a href="https://github.com/vimwiki/vimwiki">Vimwiki</a> which works excellently. But I wanted for a theory and method with which to use this tool. Enter Zettelkasten.</p>
 <p>A Zettelkasten is a ‘slip box’; or box of notes. The zettelkasten method was first described by sociologist, Thomas Luhmann, and recently developed for digital tools by Christian Tietze and Sascha Fast at <a href="https://zettelkasten.de/">https://zettelkasten.de/</a>. The basic idea is that you make notes and put them all into one folder. The structure comes from the links you make in the notes themselves to other notes in the folder.</p>
@@ -62,8 +65,8 @@
 <p>So, I give you <a href="https://github.com/Aarleks/zettel.vim">Zettel.vim</a>. It’s a work-in-progress and very early days so far. But I’m hoping it can be a useful little plugin that sticks pretty close to vanilla Vim; the exceptions will be the use of <a href="https://github.com/junegunn/fzf">fzf</a> and its accompanying Vim plugin for fuzzy search, and <a href="https://github.com/BurntSushi/ripgrep">ripgrep</a> for searching file contents.</p>
 </section>
 </section>
-<section id="contact" class="level1">
-<h1><span class="header-section-number">4</span> Contact</h1>
+<section id="contact" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Contact</h1>
 <ul>
 <li><i class="fas fa-paper-plane big-icon"></i> <a href="mailto:A.Norman@westernsydney.edu.au">A.Norman@westernsydney.edu.au</a></li>
 <li><i class="ai ai-google-scholar big-icon"></i> <a href="https://scholar.google.com/citations?user=FN3ytOYAAAAJ&amp;hl=en">Google Scholar</a></li>
@@ -72,8 +75,8 @@
 <li><i class="fab fa-youtube big-icon"></i> <a href="https://www.youtube.com/channel/UCEP8VU6BwezS99VzHNF8wSw/videos">YouTube</a></li>
 </ul>
 </section>
-<section id="colophon" class="level1">
-<h1><span class="header-section-number">5</span> Colophon</h1>
+<section id="colophon" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Colophon</h1>
 <p>This site is written in <code>markdown</code> and <code>css</code>, and converted to html with the amazing tool, <a href="https://pandoc.org/">pandoc</a>.</p>
 <ul>
 <li><strong>Font</strong>: IBM Plex Mono</li>
@@ -86,7 +89,7 @@
 <p> </p>
 <p>Made in <a href="https://www.vim.org">Vim</a>/<a href="https://neovim.io/">Neovim</a> and the Shell with <a href="https://daringfireball.net/projects/markdown/">Markdown</a> and <a href="https://pandoc.org/">Pandoc</a>.</p>
 <p>© 2016-2020 Alex Norman</p>
-<p>Latest update on 29, March 2020</p>
+<p>Latest update on 10, April 2020</p>
 </section>
 </body>
 </html>
