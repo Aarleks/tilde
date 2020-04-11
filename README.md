@@ -17,6 +17,46 @@ Sorry.
 
 ---
 
+## Website Build Script
+
+* initialise site in folder if none exists
+    * make new
+    * git clone
+* give options for actions:
+    * write new post;
+    * update html;
+    * push most recent commits to server
+
+### Repo structure
+
+* README.md
+* website config file
+* build-tilde
+* markdown/
+    * files
+    * blog/
+	* files
+* style/
+    * files
+* img/
+    * files
+
+### Site structure
+
+* index.html
+    * blog/
+	* blog_files
+* bio.html
+* teaching.html
+* research.html
+* resources.html
+* style/
+    * files
+* img/
+    * files
+
+---
+
 ## Index Page
 
 ## About
