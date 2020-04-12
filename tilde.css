@@ -19,7 +19,7 @@ html, body {
 	text-align: left;
 	line-height: 1.3em;
 	font-family: 'IBM Plex Mono', menlo, monospace;
-	font-size: 20px;
+	font-size: 1rem;
 	height: 98%;
 	background: #fffff8;
 	color: #333;
