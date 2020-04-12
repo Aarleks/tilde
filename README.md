@@ -14,6 +14,7 @@ Sorry.
 * add a cv page;
 * make a shell script to add, edit, and delete pages.
 * add an rss capability
+* use a `YAML` file to set variables for `pandoc`
 
 ---
 
