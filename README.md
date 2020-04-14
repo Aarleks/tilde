@@ -14,7 +14,6 @@ Sorry.
 * add a cv page;
 * make a shell script to add, edit, and delete pages.
 * add an rss capability
-* use a `YAML` file to set variables for `pandoc`
 
 ---
 
@@ -63,6 +62,12 @@ Sorry.
 ## About
 * link to CV
 
+## Blog
+* link to main blog page
+* rolling top 3-5 on the index page
+
+---
+
 ### Teaching Page Link
 * regular teaching
 * occasional teaching
@@ -76,7 +81,3 @@ Sorry.
 * templates
 * plain text guide
 * Blog posts on interesting things
-
-## Blog
-* link to main blog page
-* rolling top 3-5 on the index page
