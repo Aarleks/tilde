@@ -4,7 +4,6 @@ Because I'm an insufferable hipster I've made a `tilde.club`-style site as a pla
 
 Sorry.
 
-
 ## Things I may want to do
 
 * add a rolling blog (including a drafts folder?);
@@ -26,6 +25,17 @@ Sorry.
     * write new post;
     * update html;
     * push most recent commits to server
+
+```sh
+# take homepage file
+# create 'frontblog.md' with
+    ## latest 10posts
+    ## last post title is changed to h2, date into a
+    14 April, 2020
+    Title hyperlinked to post page
+
+    | block quote opening few lines
+```
 
 ### Repo structure
 
