@@ -1,6 +1,6 @@
 # Using R to Send Feedback to Students
 
-Part of teaching is sending feedback to students.
+An important part of teaching is sending feedback to students about their work. When you are
 
 Outlook doesn't make this easy - sending a different attachment to each student is hard.
 

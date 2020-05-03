@@ -40,16 +40,17 @@ Sorry.
 ### Repo structure
 
 * README.md
-* website config file
-* build-tilde
+* website config file (site-wide settings)
+* build-tilde (shell script to build the site with pandoc)
+* public/ (stores the public-facing html, css, etc.)
+    * style/
+        * files
+    * img/
+        * files
 * markdown/
     * files
     * blog/
 	* files
-* style/
-    * files
-* img/
-    * files
 
 ### Site structure
 
