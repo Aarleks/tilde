@@ -11,4 +11,4 @@ Made in [Vim](https://www.vim.org)/[Neovim](https://neovim.io/) and the Shell wi
 
 Latest update on $(date +%d,\ %B\ %Y)" > footer.md
 
-pandoc -s --template dral_template.html --metadata title="~acn" --metadata author="Alex Norman" --variable homepage:"https://dralexnorman.net" --section-divs --css https://dralexnorman.net/tilde.css --include-before header.html --include-before icons.html tilde.md footer.md -o public/index.html
+pandoc -s --template dral_template.html --metadata title="~acn" --metadata author="Alex Norman" --variable homepage:"https://dralexnorman.net" --section-divs --css https://www.dralexnorman.net/tilde.css --include-before header.html --include-before icons.html markdown/home.md markdown/while-youre-here.md markdown/contact.md markdown/footer.md -o public/index.html
