@@ -1,21 +1,21 @@
 # Using R to Send Feedback to Students
 
-An important part of working with students on their assessment tasks is sending feedback. Students need detailed, specific comment on their work for the purposes of learning and self-improvement. This is particularly the case for the development of writing at graduate level, where most of my teaching work takes place. Frequently, I need to send a document with written feedback and an annotated copy of the submission.
+An important part of working with students on their assessment tasks is feedback. Students need detailed, specific comment on their work for the purposes of learning and self-improvement. While learning management systems serve this function, they tend to be clunky, anonymous, and unfriendly. Frequently, I need to send a document with written feedback and an annotated copy of the submission, and email is a good, simple tool for that.
 
-Unfortunately, tools like Outlook don't make this easy. Unless you want to do it manually, sending a different attachment to each student is hard and time-consuming.
+Unfortunately, email clients like Outlook and even `mutt` don't make this easy at scale. Unless you want to do it manually, sending a different attachment to each of 80 students is hard and time-consuming.
 
-The [`blastula`](https://github.com/rich-iannone/blastula) package for R provides a handy and easy-to-use tool with which to send feedback documents to students.
+Thankfully, the [`blastula`](https://github.com/rich-iannone/blastula) package for R provides a handy and easy-to-use tool with which to send feedback documents to students (and anyone else, for that matter).
 
 I have two main use cases:
 
 1) emailing a feedback document to each student
 2) emailing individual feedback from a spreadsheet
 
-What follows is a basic example of the first use case. The second should be straightforward after reading through this post.
+What follows is a basic example of the first use case. The second should be straightforward enough after reading through this post.
 
 ### Emailing Individual Feedback Documents to Students
 
-What we are doing is taking a folder with a feedback document for each student and using `R` to loop through a list of enrolments to send each student their own feedback file. For the purposes of the example I've assumed every student has a file to to sent - in my real-world script I filter the enrolment data so I only email those students with a feedback document in the folder.
+What we are doing is taking a folder with a feedback document for each student and using `R` to loop through a list of enrolments to send each student their own feedback file. For the purposes of the example I've assumed every student has a file to be sent - in my real-world script I filter the enrolment data so I only email those students with a feedback document in the folder.
 
 First we want to get our packages ready and set all our variables:
 

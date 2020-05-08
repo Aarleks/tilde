@@ -98,18 +98,18 @@
 </nav>
 <section id="using-r-to-send-feedback-to-students" class="level1">
 <h1>Using R to Send Feedback to Students</h1>
-<p>An important part of working with students on their assessment tasks is sending feedback. Students need detailed, specific comment on their work for the purposes of learning and self-improvement. This is particularly the case for the development of writing at graduate level, where most of my teaching work takes place. Frequently, I need to send a document with written feedback and an annotated copy of the submission.</p>
-<p>Unfortunately, tools like Outlook don’t make this easy. Unless you want to do it manually, sending a different attachment to each student is hard and time-consuming.</p>
-<p>The <a href="https://github.com/rich-iannone/blastula"><code>blastula</code></a> package for R provides a handy and easy-to-use tool with which to send feedback documents to students.</p>
+<p>An important part of working with students on their assessment tasks is feedback. Students need detailed, specific comment on their work for the purposes of learning and self-improvement. While learning management systems serve this function, they tend to be clunky, anonymous, and unfriendly. Frequently, I need to send a document with written feedback and an annotated copy of the submission, and email is a good, simple tool for that.</p>
+<p>Unfortunately, email clients like Outlook and even <code>mutt</code> don’t make this easy at scale. Unless you want to do it manually, sending a different attachment to each of 80 students is hard and time-consuming.</p>
+<p>Thankfully, the <a href="https://github.com/rich-iannone/blastula"><code>blastula</code></a> package for R provides a handy and easy-to-use tool with which to send feedback documents to students (and anyone else, for that matter).</p>
 <p>I have two main use cases:</p>
 <ol type="1">
 <li>emailing a feedback document to each student</li>
 <li>emailing individual feedback from a spreadsheet</li>
 </ol>
-<p>What follows is a basic example of the first use case. The second should be straightforward after reading through this post.</p>
+<p>What follows is a basic example of the first use case. The second should be straightforward enough after reading through this post.</p>
 <section id="emailing-individual-feedback-documents-to-students" class="level3">
 <h3>Emailing Individual Feedback Documents to Students</h3>
-<p>What we are doing is taking a folder with a feedback document for each student and using <code>R</code> to loop through a list of enrolments to send each student their own feedback file. For the purposes of the example I’ve assumed every student has a file to to sent - in my real-world script I filter the enrolment data so I only email those students with a feedback document in the folder.</p>
+<p>What we are doing is taking a folder with a feedback document for each student and using <code>R</code> to loop through a list of enrolments to send each student their own feedback file. For the purposes of the example I’ve assumed every student has a file to be sent - in my real-world script I filter the enrolment data so I only email those students with a feedback document in the folder.</p>
 <p>First we want to get our packages ready and set all our variables:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(blastula)</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(dplyr)</span>
