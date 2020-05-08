@@ -124,7 +124,7 @@ for(i in 1:length(class_names$Surname)){
 }
 ```
 
-And that's it! There's probably a much better way to do this, but this gets the job done.
+And that's it! There's probably a much better way to do it but this gets the job done.
 
 This is what your students will receive:
 

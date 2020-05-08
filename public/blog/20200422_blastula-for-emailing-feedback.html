@@ -98,73 +98,72 @@
 </nav>
 <section id="using-r-to-send-feedback-to-students" class="level1">
 <h1>Using R to Send Feedback to Students</h1>
-<p>An important part of teaching is sending feedback to students about their work. When you are</p>
-<p>Outlook doesn’t make this easy - sending a different attachment to each student is hard.</p>
+<p>An important part of working with students on their assessment tasks is sending feedback. Students need detailed, specific comment on their work for the purposes of learning and self-improvement. This is particularly the case for the development of writing at graduate level, where most of my teaching work takes place. Frequently, I need to send a document with written feedback and an annotated copy of the submission.</p>
+<p>Unfortunately, tools like Outlook don’t make this easy. Unless you want to do it manually, sending a different attachment to each student is hard and time-consuming.</p>
 <p>The <a href="https://github.com/rich-iannone/blastula"><code>blastula</code></a> package for R provides a handy and easy-to-use tool with which to send feedback documents to students.</p>
-<p>Two use cases:</p>
+<p>I have two main use cases:</p>
 <ol type="1">
 <li>emailing a feedback document to each student</li>
 <li>emailing individual feedback from a spreadsheet</li>
 </ol>
-<section id="emailing-individual-feedback-documents-to-students" class="level2">
-<h2>Emailing Individual Feedback Documents to Students</h2>
-<p>What follows is a basic example.</p>
+<p>What follows is a basic example of the first use case. The second should be straightforward after reading through this post.</p>
+<section id="emailing-individual-feedback-documents-to-students" class="level3">
+<h3>Emailing Individual Feedback Documents to Students</h3>
 <p>What we are doing is taking a folder with a feedback document for each student and using <code>R</code> to loop through a list of enrolments to send each student their own feedback file. For the purposes of the example I’ve assumed every student has a file to to sent - in my real-world script I filter the enrolment data so I only email those students with a feedback document in the folder.</p>
 <p>First we want to get our packages ready and set all our variables:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a></span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(blastula)</span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">library</span>(dplyr)</span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="kw">library</span>(readr)</span>
-<span id="cb1-5"><a href="#cb1-5"></a></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="co"># Read the class enrolment data</span></span>
-<span id="cb1-7"><a href="#cb1-7"></a>class_names &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_csv</span>(<span class="st">&quot;class-data.csv&quot;</span>)</span>
-<span id="cb1-8"><a href="#cb1-8"></a></span>
-<span id="cb1-9"><a href="#cb1-9"></a><span class="co"># Prepare variables for email content</span></span>
-<span id="cb1-10"><a href="#cb1-10"></a>subject &lt;-<span class="st"> &quot;Course Assessment Feedback&quot;</span></span>
-<span id="cb1-11"><a href="#cb1-11"></a>from &lt;-<span class="st"> &quot;your_email@heapsgoodeducation.edu&quot;</span></span>
-<span id="cb1-12"><a href="#cb1-12"></a></span>
-<span id="cb1-13"><a href="#cb1-13"></a><span class="co"># Get the appropriate filenames</span></span>
-<span id="cb1-14"><a href="#cb1-14"></a>feedback_files &lt;-<span class="st"> </span><span class="kw">list.files</span>(<span class="st">&quot;/path/to/feedback_files/&quot;</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb1-15"><a href="#cb1-15"></a></span>
-<span id="cb1-16"><a href="#cb1-16"></a><span class="co"># Get a nicely formatted date/time string: e.g. &#39;Mon, 27 Apr at 20:10&#39;</span></span>
-<span id="cb1-17"><a href="#cb1-17"></a>current_date_time &lt;-<span class="st"> </span><span class="kw">format</span>(<span class="kw">Sys.time</span>(), <span class="st">&quot;%a, %d %b at %H:%M&quot;</span>)</span></code></pre></div>
-<p>Next we want to get our email text, with a placeholder for the recipient’s name. To do this we can either create a markdown document and read it in, or simply create a character object in <code>R</code> with markdown formatting. Here I’ve done the latter (remember in markdown a new line is a paragraph break).</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a></span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="co"># Generate the body text for the email message</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a>email_text &lt;-</span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="st">  &quot;</span></span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="st">Dear StudentName,</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a></span>
-<span id="cb2-7"><a href="#cb2-7"></a><span class="st">**Assessment Feedback Attached**</span></span>
-<span id="cb2-8"><a href="#cb2-8"></a></span>
-<span id="cb2-9"><a href="#cb2-9"></a><span class="st">I hope this email finds you well.</span></span>
-<span id="cb2-10"><a href="#cb2-10"></a></span>
-<span id="cb2-11"><a href="#cb2-11"></a><span class="st">I&#39;m writing with feedback for your assessment.</span></span>
-<span id="cb2-12"><a href="#cb2-12"></a></span>
-<span id="cb2-13"><a href="#cb2-13"></a><span class="st">Be excellent to each other,</span></span>
-<span id="cb2-14"><a href="#cb2-14"></a></span>
-<span id="cb2-15"><a href="#cb2-15"></a><span class="st">Alex</span></span>
-<span id="cb2-16"><a href="#cb2-16"></a><span class="st">&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(blastula)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(dplyr)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">library</span>(readr)</span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="co"># Read the class enrolment data</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a>class_names &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_csv</span>(<span class="st">&quot;class-data.csv&quot;</span>)</span>
+<span id="cb1-7"><a href="#cb1-7"></a></span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="co"># Prepare variables for email content</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a>subject &lt;-<span class="st"> &quot;Course Assessment Feedback&quot;</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a>from &lt;-<span class="st"> &quot;your_email@heapsgoodeducation.edu&quot;</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a></span>
+<span id="cb1-12"><a href="#cb1-12"></a><span class="co"># Get the appropriate filenames</span></span>
+<span id="cb1-13"><a href="#cb1-13"></a>feedback_files &lt;-<span class="st"> </span><span class="kw">list.files</span>(<span class="st">&quot;/path/to/feedback_files/&quot;</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb1-14"><a href="#cb1-14"></a></span>
+<span id="cb1-15"><a href="#cb1-15"></a><span class="co"># Get a nicely formatted date/time string: e.g. &#39;Mon, 27 Apr at 20:10&#39;</span></span>
+<span id="cb1-16"><a href="#cb1-16"></a>current_date_time &lt;-<span class="st"> </span><span class="kw">format</span>(<span class="kw">Sys.time</span>(), <span class="st">&quot;%a, %d %b at %H:%M&quot;</span>)</span></code></pre></div>
+<p>Next we want to get our email text, with a placeholder for the recipient’s name. To do this we can either create a markdown document and read it in, or simply create a character object in <code>R</code> with markdown formatting. Here I’ve done the latter (remember in markdown two new lines is a paragraph break).</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># Generate the body text for the email message</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>email_text &lt;-<span class="st"> &quot;Dear StudentName,</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a></span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="st">**Assessment Feedback Attached**</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a></span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="st">I hope this email finds you well.</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a></span>
+<span id="cb2-8"><a href="#cb2-8"></a><span class="st">I&#39;m writing with feedback for your assessment on cupcake history.</span></span>
+<span id="cb2-9"><a href="#cb2-9"></a></span>
+<span id="cb2-10"><a href="#cb2-10"></a><span class="st">If you have any questions, let me know.</span></span>
+<span id="cb2-11"><a href="#cb2-11"></a></span>
+<span id="cb2-12"><a href="#cb2-12"></a><span class="st">See you in class for our next lesson on early 20th century cupcake aesthetics.</span></span>
+<span id="cb2-13"><a href="#cb2-13"></a></span>
+<span id="cb2-14"><a href="#cb2-14"></a><span class="st">Stay frosty,</span></span>
+<span id="cb2-15"><a href="#cb2-15"></a></span>
+<span id="cb2-16"><a href="#cb2-16"></a><span class="st">Alex</span></span>
+<span id="cb2-17"><a href="#cb2-17"></a><span class="st">&quot;</span></span></code></pre></div>
 <p>With all of that setup, we can now bring <code>blastula</code> in to send each student in our class their assessment feedback document in a few seconds.</p>
 <p>First we get our email login credentials sorted. For this we use one the functions that ships with <code>blastula</code>. In this example I’m using Office365 (because that’s what I use at work) but there are options for Gmail and Outlook, too (note: this will ask you for your password and will store it in your working directory in a plain-text file; best to delete it when you’re done). You might need to play around for a bit to find the correct settings for your email.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a></span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="co"># Create a credentials file</span></span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="kw">create_smtp_creds_file</span>(</span>
-<span id="cb3-4"><a href="#cb3-4"></a>  <span class="dt">user =</span> <span class="st">&quot;your_email@heapsgoodeducation.edu&quot;</span>,</span>
-<span id="cb3-5"><a href="#cb3-5"></a>  <span class="dt">host =</span> <span class="st">&quot;smtp.office365.com&quot;</span>,</span>
-<span id="cb3-6"><a href="#cb3-6"></a>  <span class="dt">port =</span> <span class="dv">587</span>,</span>
-<span id="cb3-7"><a href="#cb3-7"></a>  <span class="dt">use_ssl =</span> <span class="ot">TRUE</span>,</span>
-<span id="cb3-8"><a href="#cb3-8"></a>  <span class="dt">file =</span> <span class="st">&quot;.email_creds&quot;</span></span>
-<span id="cb3-9"><a href="#cb3-9"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># Create a credentials file</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="kw">create_smtp_creds_file</span>(</span>
+<span id="cb3-3"><a href="#cb3-3"></a>  <span class="dt">user =</span> <span class="st">&quot;your_email@heapsgoodeducation.edu&quot;</span>,</span>
+<span id="cb3-4"><a href="#cb3-4"></a>  <span class="dt">host =</span> <span class="st">&quot;smtp.office365.com&quot;</span>,</span>
+<span id="cb3-5"><a href="#cb3-5"></a>  <span class="dt">port =</span> <span class="dv">587</span>,</span>
+<span id="cb3-6"><a href="#cb3-6"></a>  <span class="dt">use_ssl =</span> <span class="ot">TRUE</span>,</span>
+<span id="cb3-7"><a href="#cb3-7"></a>  <span class="dt">file =</span> <span class="st">&quot;.email_creds&quot;</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a>)</span></code></pre></div>
 <p>And finally we simply loop through our class list, sending each student an email with their individual feedback files attached:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a></span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="co"># Loop through eligible recipients and send them an email using blastula package</span></span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(class_names<span class="op">$</span>Surname)){</span>
-<span id="cb4-4"><a href="#cb4-4"></a>  name &lt;-<span class="st"> </span>class_names<span class="op">$</span>First_Name[i]</span>
-<span id="cb4-5"><a href="#cb4-5"></a>  recipient &lt;-<span class="st"> </span><span class="kw">paste</span>(class_names<span class="op">$</span>studentID[i], <span class="st">&quot;@student.heapsgoodeducation.edu&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</span>
-<span id="cb4-6"><a href="#cb4-6"></a></span>
-<span id="cb4-7"><a href="#cb4-7"></a>  <span class="co"># Find the files that match the Surname (having a filenaming protocol for</span></span>
-<span id="cb4-8"><a href="#cb4-8"></a>  <span class="co"># feedback files is vital! Something like Surname_studentID_Assessment.pdf is</span></span>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># Loop through eligible recipients and send an email using blastula package</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(class_names<span class="op">$</span>Surname)){</span>
+<span id="cb4-3"><a href="#cb4-3"></a>  name &lt;-<span class="st"> </span>class_names<span class="op">$</span>First_Name[i]</span>
+<span id="cb4-4"><a href="#cb4-4"></a>  recipient &lt;-<span class="st"> </span><span class="kw">paste</span>(class_names<span class="op">$</span>studentID[i], <span class="st">&quot;@student.heapsgoodeducation.edu&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb4-5"><a href="#cb4-5"></a></span>
+<span id="cb4-6"><a href="#cb4-6"></a>  <span class="co"># Find the files that match the Surname</span></span>
+<span id="cb4-7"><a href="#cb4-7"></a>  <span class="co"># (having a filenaming protocol for feedback files is vital!</span></span>
+<span id="cb4-8"><a href="#cb4-8"></a>  <span class="co"># Something like Surname_studentID_Assessment.pdf is</span></span>
 <span id="cb4-9"><a href="#cb4-9"></a>  <span class="co"># both human and machine readable.</span></span>
 <span id="cb4-10"><a href="#cb4-10"></a>  files &lt;-<span class="st"> </span>feedback_files[<span class="kw">grepl</span>(</span>
 <span id="cb4-11"><a href="#cb4-11"></a>    class_names<span class="op">$</span>studentID[i],</span>
@@ -201,17 +200,16 @@
 <span id="cb4-42"><a href="#cb4-42"></a>  <span class="co"># Tell yourself that you&#39;ve sent each email.</span></span>
 <span id="cb4-43"><a href="#cb4-43"></a>  <span class="kw">print</span>(<span class="kw">c</span>(name, files))</span>
 <span id="cb4-44"><a href="#cb4-44"></a>}</span></code></pre></div>
-<p>And that’s it!</p>
+<p>And that’s it! There’s probably a much better way to do it but this gets the job done.</p>
 <p>This is what your students will receive:</p>
-<p><img src="" /></p>
+<p><img src="../img/blastula_email.jpeg" /></p>
 <p>A simple solution to a time consuming problem.</p>
-<p>Thanks to <a href="https://github.com/rich-iannone">Richard Ianne</a> and the contributors to <code>blastula</code> for a great package.</p>
-<p> </p>
+<p>Thanks to <a href="https://github.com/rich-iannone">Richard Iannone</a> and the contributors to <code>blastula</code> for a great package.</p>
 <hr />
 <p> </p>
 <p>Made in <a href="https://www.vim.org">Vim</a>/<a href="https://neovim.io/">Neovim</a> and the Shell with <a href="https://daringfireball.net/projects/markdown/">Markdown</a> and <a href="https://pandoc.org/">Pandoc</a>.</p>
 <p>© 2016-2020 Alex Norman</p>
-<p>Latest update on 22, April 2020</p>
+<p>Latest update on 8, May 2020</p>
 </section>
 </section>
 </body>
