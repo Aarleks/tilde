@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/css" href="rss.css" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
 	<title>Alex Norman</title>
@@ -9,9 +10,14 @@
 
 
 <item>
-<title></title>
-<guid>/posts/.html</guid>
-<pubDate></pubDate><description><(cat /post)]]></description>
+<title>Using R to Send Feedback to Students</title>
+<link>https://dralexnorman.net/blog/20200422_blastula-for-emailing-feedback.html</link>
+<guid>https://dralexnorman.net/blog/20200422_blastula-for-emailing-feedback.html</guid>
+<pubDate>Fri, 09 May 2020 19:33:52 +1000</pubDate>
+<description>
+    <p>An important part of working with students on their assessment tasks is feedback. Students need detailed, specific comment on their work for the purposes of learning and self-improvement. While learning management systems serve this function, they tend to be clunky, anonymous, and unfriendly. Frequently, I need to send a document with written feedback and an annotated copy of the submission, and email is a good, simple tool for that.</p>
+</description>
 </item>
 
-
+</channel>
+</rss>
