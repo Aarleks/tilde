@@ -15,139 +15,113 @@
 <guid>https://dralexnorman.net/blog/20200422_blastula-for-emailing-feedback.html</guid>
 <pubDate>Fri, 08 May 2020 19:33:52 +1000</pubDate>
 <description><![CDATA[
-An important part of working with students on their assessment tasks is feedback. Students need detailed, specific comment on their work for the purposes of learning and self-improvement. While learning management systems serve this function, they tend to be clunky, anonymous, and unfriendly. Frequently, I need to send a document with written feedback and an annotated copy of the submission, and email is a good, simple tool for that.
-
-Unfortunately, email clients like Outlook and even `mutt` don't make this easy at scale. Unless you want to do it manually, sending a different attachment to each of 80 students is hard and time-consuming.
-
-Thankfully, the [`blastula`](https://github.com/rich-iannone/blastula) package for R provides a handy and easy-to-use tool with which to send feedback documents to students (and anyone else, for that matter).
-
-I have two main use cases:
-
-1) emailing a feedback document to each student
-2) emailing individual feedback from a spreadsheet
-
-What follows is a basic example of the first use case. The second should be straightforward enough after reading through this post.
-
-### Emailing Individual Feedback Documents to Students
-
-What we are doing is taking a folder with a feedback document for each student and using `R` to loop through a list of enrolments to send each student their own feedback file. For the purposes of the example I've assumed every student has a file to be sent - in my real-world script I filter the enrolment data so I only email those students with a feedback document in the folder.
-
-First we want to get our packages ready and set all our variables:
-
-```r
-library(blastula)
-library(dplyr)
-library(readr)
-
-# Read the class enrolment data
-class_names <- readr::read_csv("class-data.csv")
-
-# Prepare variables for email content
-subject <- "Course Assessment Feedback"
-from <- "your_email@heapsgoodeducation.edu"
-
-# Get the appropriate filenames
-feedback_files <- list.files("/path/to/feedback_files/", full.names = TRUE)
-
-# Get a nicely formatted date/time string: e.g. 'Mon, 27 Apr at 20:10'
-current_date_time <- format(Sys.time(), "%a, %d %b at %H:%M")
-```
-
-Next we want to get our email text, with a placeholder for the recipient's name. To do this we can either create a markdown document and read it in, or simply create a character object in `R` with markdown formatting. Here I've done the latter (remember in markdown two new lines is a paragraph break).
-
-```r
-# Generate the body text for the email message
-email_text <- "Dear StudentName,
-
-**Assessment Feedback Attached**
-
-I hope this email finds you well.
-
-I'm writing with feedback for your assessment on cupcake history.
-
-If you have any questions, let me know.
-
-See you in class for our next lesson on early 20th century cupcake aesthetics.
-
-Stay frosty,
-
-Alex
-"
-```
-
-With all of that setup, we can now bring `blastula` in to send each student in our class their assessment feedback document in a few seconds.
-
-First we get our email login credentials sorted. For this we use one the functions that ships with `blastula`. In this example I'm using Office365 (because that's what I use at work) but there are options for Gmail and Outlook, too (note: this will ask you for your password and will store it in your working directory in a plain-text file; best to delete it when you're done). You might need to play around for a bit to find the correct settings for your email.
-
-```r
-# Create a credentials file
-create_smtp_creds_file(
-  user = "your_email@heapsgoodeducation.edu",
-  host = "smtp.office365.com",
-  port = 587,
-  use_ssl = TRUE,
-  file = ".email_creds"
-)
-```
-
-And finally we simply loop through our class list, sending each student an email with their individual feedback files attached:
-
-```r
-# Loop through eligible recipients and send an email using blastula package
-for(i in 1:length(class_names$Surname)){
-  name <- class_names$First_Name[i]
-  recipient <- paste(class_names$studentID[i], "@student.heapsgoodeducation.edu", sep = "")
-
-  # Find the files that match the Surname
-  # (having a filenaming protocol for feedback files is vital!
-  # Something like Surname_studentID_Assessment.pdf is
-  # both human and machine readable.
-  files <- feedback_files[grepl(
-    class_names$studentID[i],
-    feedback_files)]
-
-  # Replace the placeholder in the email message text
-  msg <- gsub("StudentName", name, email_text)
-
-  # Make the email object
-  email_object <-
-    compose_email(
-      body = md(msg),
-      header = "Cool Assessment Feedback",
-      footer =
-        md(c(
-	   "Email made in and sent from `R`, using the awesome `blastula` package, on ",
-	   current_date_time))
-    )
-
-  # Attach feedback files to the email object
-  for (f in files) {
-    email_object <- add_attachment(email_object, f)
-  }
-
-  # Send the email
-  smtp_send(
-    email = email_object,
-    from = from,
-    to = recipient,
-    subject = subject,
-    credentials = ".email_creds"
-  )
-
-  # Tell yourself that you've sent each email.
-  print(c(name, files))
-}
-```
-
-And that's it! There's probably a much better way to do it but this gets the job done.
-
-This is what your students will receive:
-
-![](../img/blastula_email.jpeg)
-
-A simple solution to a time consuming problem.
-
-Thanks to [Richard Iannone](https://github.com/rich-iannone) and the contributors to `blastula` for a great package.
+<p>An important part of working with students on their assessment tasks is feedback. Students need detailed, specific comment on their work for the purposes of learning and self-improvement. While learning management systems serve this function, they tend to be clunky, anonymous, and unfriendly. Frequently, I need to send a document with written feedback and an annotated copy of the submission, and email is a good, simple tool for that.</p>
+<p>Unfortunately, email clients like Outlook and even <code>mutt</code> don’t make this easy at scale. Unless you want to do it manually, sending a different attachment to each of 80 students is hard and time-consuming.</p>
+<p>Thankfully, the <a href="https://github.com/rich-iannone/blastula"><code>blastula</code></a> package for R provides a handy and easy-to-use tool with which to send feedback documents to students (and anyone else, for that matter).</p>
+<p>I have two main use cases:</p>
+<ol type="1">
+<li>emailing a feedback document to each student</li>
+<li>emailing individual feedback from a spreadsheet</li>
+</ol>
+<p>What follows is a basic example of the first use case. The second should be straightforward enough after reading through this post.</p>
+<section id="emailing-individual-feedback-documents-to-students" class="level3">
+<h3>Emailing Individual Feedback Documents to Students</h3>
+<p>What we are doing is taking a folder with a feedback document for each student and using <code>R</code> to loop through a list of enrolments to send each student their own feedback file. For the purposes of the example I’ve assumed every student has a file to be sent - in my real-world script I filter the enrolment data so I only email those students with a feedback document in the folder.</p>
+<p>First we want to get our packages ready and set all our variables:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(blastula)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(dplyr)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">library</span>(readr)</span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="co"># Read the class enrolment data</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a>class_names &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_csv</span>(<span class="st">&quot;class-data.csv&quot;</span>)</span>
+<span id="cb1-7"><a href="#cb1-7"></a></span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="co"># Prepare variables for email content</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a>subject &lt;-<span class="st"> &quot;Course Assessment Feedback&quot;</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a>from &lt;-<span class="st"> &quot;your_email@heapsgoodeducation.edu&quot;</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a></span>
+<span id="cb1-12"><a href="#cb1-12"></a><span class="co"># Get the appropriate filenames</span></span>
+<span id="cb1-13"><a href="#cb1-13"></a>feedback_files &lt;-<span class="st"> </span><span class="kw">list.files</span>(<span class="st">&quot;/path/to/feedback_files/&quot;</span>, <span class="dt">full.names =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb1-14"><a href="#cb1-14"></a></span>
+<span id="cb1-15"><a href="#cb1-15"></a><span class="co"># Get a nicely formatted date/time string: e.g. &#39;Mon, 27 Apr at 20:10&#39;</span></span>
+<span id="cb1-16"><a href="#cb1-16"></a>current_date_time &lt;-<span class="st"> </span><span class="kw">format</span>(<span class="kw">Sys.time</span>(), <span class="st">&quot;%a, %d %b at %H:%M&quot;</span>)</span></code></pre></div>
+<p>Next we want to get our email text, with a placeholder for the recipient’s name. To do this we can either create a markdown document and read it in, or simply create a character object in <code>R</code> with markdown formatting. Here I’ve done the latter (remember in markdown two new lines is a paragraph break).</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># Generate the body text for the email message</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>email_text &lt;-<span class="st"> &quot;Dear StudentName,</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a></span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="st">**Assessment Feedback Attached**</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a></span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="st">I hope this email finds you well.</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a></span>
+<span id="cb2-8"><a href="#cb2-8"></a><span class="st">I&#39;m writing with feedback for your assessment on cupcake history.</span></span>
+<span id="cb2-9"><a href="#cb2-9"></a></span>
+<span id="cb2-10"><a href="#cb2-10"></a><span class="st">If you have any questions, let me know.</span></span>
+<span id="cb2-11"><a href="#cb2-11"></a></span>
+<span id="cb2-12"><a href="#cb2-12"></a><span class="st">See you in class for our next lesson on early 20th century cupcake aesthetics.</span></span>
+<span id="cb2-13"><a href="#cb2-13"></a></span>
+<span id="cb2-14"><a href="#cb2-14"></a><span class="st">Stay frosty,</span></span>
+<span id="cb2-15"><a href="#cb2-15"></a></span>
+<span id="cb2-16"><a href="#cb2-16"></a><span class="st">Alex</span></span>
+<span id="cb2-17"><a href="#cb2-17"></a><span class="st">&quot;</span></span></code></pre></div>
+<p>With all of that setup, we can now bring <code>blastula</code> in to send each student in our class their assessment feedback document in a few seconds.</p>
+<p>First we get our email login credentials sorted. For this we use one the functions that ships with <code>blastula</code>. In this example I’m using Office365 (because that’s what I use at work) but there are options for Gmail and Outlook, too (note: this will ask you for your password and will store it in your working directory in a plain-text file; best to delete it when you’re done). You might need to play around for a bit to find the correct settings for your email.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># Create a credentials file</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="kw">create_smtp_creds_file</span>(</span>
+<span id="cb3-3"><a href="#cb3-3"></a>  <span class="dt">user =</span> <span class="st">&quot;your_email@heapsgoodeducation.edu&quot;</span>,</span>
+<span id="cb3-4"><a href="#cb3-4"></a>  <span class="dt">host =</span> <span class="st">&quot;smtp.office365.com&quot;</span>,</span>
+<span id="cb3-5"><a href="#cb3-5"></a>  <span class="dt">port =</span> <span class="dv">587</span>,</span>
+<span id="cb3-6"><a href="#cb3-6"></a>  <span class="dt">use_ssl =</span> <span class="ot">TRUE</span>,</span>
+<span id="cb3-7"><a href="#cb3-7"></a>  <span class="dt">file =</span> <span class="st">&quot;.email_creds&quot;</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a>)</span></code></pre></div>
+<p>And finally we simply loop through our class list, sending each student an email with their individual feedback files attached:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># Loop through eligible recipients and send an email using blastula package</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(class_names<span class="op">$</span>Surname)){</span>
+<span id="cb4-3"><a href="#cb4-3"></a>  name &lt;-<span class="st"> </span>class_names<span class="op">$</span>First_Name[i]</span>
+<span id="cb4-4"><a href="#cb4-4"></a>  recipient &lt;-<span class="st"> </span><span class="kw">paste</span>(class_names<span class="op">$</span>studentID[i], <span class="st">&quot;@student.heapsgoodeducation.edu&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb4-5"><a href="#cb4-5"></a></span>
+<span id="cb4-6"><a href="#cb4-6"></a>  <span class="co"># Find the files that match the Surname</span></span>
+<span id="cb4-7"><a href="#cb4-7"></a>  <span class="co"># (having a filenaming protocol for feedback files is vital!</span></span>
+<span id="cb4-8"><a href="#cb4-8"></a>  <span class="co"># Something like Surname_studentID_Assessment.pdf is</span></span>
+<span id="cb4-9"><a href="#cb4-9"></a>  <span class="co"># both human and machine readable.</span></span>
+<span id="cb4-10"><a href="#cb4-10"></a>  files &lt;-<span class="st"> </span>feedback_files[<span class="kw">grepl</span>(</span>
+<span id="cb4-11"><a href="#cb4-11"></a>    class_names<span class="op">$</span>studentID[i],</span>
+<span id="cb4-12"><a href="#cb4-12"></a>    feedback_files)]</span>
+<span id="cb4-13"><a href="#cb4-13"></a></span>
+<span id="cb4-14"><a href="#cb4-14"></a>  <span class="co"># Replace the placeholder in the email message text</span></span>
+<span id="cb4-15"><a href="#cb4-15"></a>  msg &lt;-<span class="st"> </span><span class="kw">gsub</span>(<span class="st">&quot;StudentName&quot;</span>, name, email_text)</span>
+<span id="cb4-16"><a href="#cb4-16"></a></span>
+<span id="cb4-17"><a href="#cb4-17"></a>  <span class="co"># Make the email object</span></span>
+<span id="cb4-18"><a href="#cb4-18"></a>  email_object &lt;-</span>
+<span id="cb4-19"><a href="#cb4-19"></a><span class="st">    </span><span class="kw">compose_email</span>(</span>
+<span id="cb4-20"><a href="#cb4-20"></a>      <span class="dt">body =</span> <span class="kw">md</span>(msg),</span>
+<span id="cb4-21"><a href="#cb4-21"></a>      <span class="dt">header =</span> <span class="st">&quot;Cool Assessment Feedback&quot;</span>,</span>
+<span id="cb4-22"><a href="#cb4-22"></a>      <span class="dt">footer =</span></span>
+<span id="cb4-23"><a href="#cb4-23"></a>        <span class="kw">md</span>(<span class="kw">c</span>(</span>
+<span id="cb4-24"><a href="#cb4-24"></a>       <span class="st">&quot;Email made in and sent from `R`, using the awesome `blastula` package, on &quot;</span>,</span>
+<span id="cb4-25"><a href="#cb4-25"></a>       current_date_time))</span>
+<span id="cb4-26"><a href="#cb4-26"></a>    )</span>
+<span id="cb4-27"><a href="#cb4-27"></a></span>
+<span id="cb4-28"><a href="#cb4-28"></a>  <span class="co"># Attach feedback files to the email object</span></span>
+<span id="cb4-29"><a href="#cb4-29"></a>  <span class="cf">for</span> (f <span class="cf">in</span> files) {</span>
+<span id="cb4-30"><a href="#cb4-30"></a>    email_object &lt;-<span class="st"> </span><span class="kw">add_attachment</span>(email_object, f)</span>
+<span id="cb4-31"><a href="#cb4-31"></a>  }</span>
+<span id="cb4-32"><a href="#cb4-32"></a></span>
+<span id="cb4-33"><a href="#cb4-33"></a>  <span class="co"># Send the email</span></span>
+<span id="cb4-34"><a href="#cb4-34"></a>  <span class="kw">smtp_send</span>(</span>
+<span id="cb4-35"><a href="#cb4-35"></a>    <span class="dt">email =</span> email_object,</span>
+<span id="cb4-36"><a href="#cb4-36"></a>    <span class="dt">from =</span> from,</span>
+<span id="cb4-37"><a href="#cb4-37"></a>    <span class="dt">to =</span> recipient,</span>
+<span id="cb4-38"><a href="#cb4-38"></a>    <span class="dt">subject =</span> subject,</span>
+<span id="cb4-39"><a href="#cb4-39"></a>    <span class="dt">credentials =</span> <span class="st">&quot;.email_creds&quot;</span></span>
+<span id="cb4-40"><a href="#cb4-40"></a>  )</span>
+<span id="cb4-41"><a href="#cb4-41"></a></span>
+<span id="cb4-42"><a href="#cb4-42"></a>  <span class="co"># Tell yourself that you&#39;ve sent each email.</span></span>
+<span id="cb4-43"><a href="#cb4-43"></a>  <span class="kw">print</span>(<span class="kw">c</span>(name, files))</span>
+<span id="cb4-44"><a href="#cb4-44"></a>}</span></code></pre></div>
+<p>And that’s it! There’s probably a much better way to do it but this gets the job done.</p>
+<p>This is what your students will receive:</p>
+<p><img src="../img/blastula_email.jpeg" /></p>
+<p>A simple solution to a time consuming problem.</p>
+<p>Thanks to <a href="https://github.com/rich-iannone">Richard Iannone</a> and the contributors to <code>blastula</code> for a great package.</p>
 	]]></description>
 </item>
 
