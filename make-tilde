@@ -1,14 +1,38 @@
 #!/bin/sh
 
-echo "&nbsp;
+# Print a selection menu if no arguments are given
 
----
-&nbsp;
+# Functions:
+# 1. Make a new draft post
+# 2. Publish a draft post
+# 3. Update one of the main sections
+# 4. Make a new section
+# 5. Make a new site
+# 6. Update site
 
-Made in [Vim](https://www.vim.org)/[Neovim](https://neovim.io/) and the Shell with [Markdown](https://daringfireball.net/projects/markdown/) and [Pandoc](https://pandoc.org/).
+## 1. Make a new draft blog post
+##    Ask for blog title
+##    Create markdown file with yyyymmdd_title.md filename
+##    Populate any metadata and title info in the new file
+##    Open the file in $EDITOR
 
-&copy; 2016-$(date +%Y) Alex Norman
+case "$1" in
+    n*) printf "Hello Alex\\n" ;; #run the function to make a draft post
+    p*) ;; #list the draft posts, make selection, run the make_html function
+    u*) ;; #list the main pages, make selection, run the $EDITOR on selection
+    m*) ;; #run the function to make a new section
+    s*) ;; #ssh into site, git
 
-Latest update on $(date +%d,\ %B\ %Y)" > footer.md
-
-pandoc -s --template dral_template.html --metadata title="~acn" --metadata author="Alex Norman" --variable homepage:"https://dralexnorman.net" --section-divs --css https://www.dralexnorman.net/tilde.css --include-before header.html --include-before icons.html markdown/home.md markdown/while-youre-here.md markdown/contact.md markdown/footer.md -o public/index.html
+esac
+#echo "&nbsp;
+#
+#---
+#&nbsp;
+#
+#Made in [Vim](https://www.vim.org)/[Neovim](https://neovim.io/) and the Shell with [Markdown](https://daringfireball.net/projects/markdown/) and [Pandoc](https://pandoc.org/).
+#
+#&copy; 2016-$(date +%Y) Alex Norman
+#
+#Latest update on $(date +%d,\ %B\ %Y)" > footer.md
+#
+#pandoc -s --template dral_template.html --metadata title="~acn" --metadata author="Alex Norman" --variable homepage:"https://dralexnorman.net" --section-divs --css https://www.dralexnorman.net/tilde.css --include-before header.html --include-before icons.html markdown/home.md markdown/while-youre-here.md markdown/contact.md markdown/footer.md -o public/index.html

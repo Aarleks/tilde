@@ -4,15 +4,16 @@ Because I'm an insufferable hipster I've made a `tilde.club`-style site as a pla
 
 Sorry.
 
-## Things I may want to do
+## Things I want to do
 
-* add a rolling blog (including a drafts folder?);
-* make the index page a bit more purposeful;
+* DONE add a rolling blog to the index;
+* DONE make the index page a bit more purposeful;
 * add a resources page;
 * add a teaching page;
 * add a cv page;
 * make a shell script to add, edit, and delete pages.
-* add an rss capability
+* DONE add an rss capability
+* set up a cronjob on the site to look for git commits and git pull when there is a new one
 
 ---
 
