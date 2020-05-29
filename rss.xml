@@ -27,7 +27,7 @@
 <title>A Zettelkasten With Vim</title>
 <link>https://dralexnorman.net/blog/20200329_zettelkasten-with-vim.html</link>
 <guid>https://dralexnorman.net/blog/20200329_zettelkasten-with-vim.html</guid>
-<pubDate>Sun, 29 March 2020 20:20:20 +1000</pubDate>
+<pubDate>Sun, 29 Mar 2020 20:20:20 +1000</pubDate>
 <description><![CDATA[
 <p>I’ve always struggled with categorising my notes. When I moved from paper to electronic notes I started to struggle; I felt like I needed to ‘file’ things because that’s what you did with files on a computer. You put them in folders.</p>
 <p>The problem is my mind doesn’t work in folders; it works more like a network. This problem was mostly solved when I discovered wiki-style note-taking. For this, I used <a href="https://github.com/vimwiki/vimwiki">Vimwiki</a> which works excellently. But I wanted for a theory and method with which to use this tool. Enter Zettelkasten.</p>
