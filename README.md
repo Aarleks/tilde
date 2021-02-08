@@ -38,6 +38,10 @@ Sorry.
     | block quote opening few lines
 ```
 
+1. check for new or updated files
+2. run pandoc on new files
+3. rsync to alexnorman.xyz
+
 ### Repo structure
 
 * README.md

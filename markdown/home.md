@@ -2,7 +2,7 @@
 title: "~acn"
 author: "Alex Norman"
 variables:
-    homepage: "https://dralexnorman.net"
+    homepage: "https://alexnorman.xyz"
 css: "tilde.css"
 template: "dral_template.html"
 ---
