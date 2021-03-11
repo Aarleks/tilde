@@ -15,10 +15,31 @@
 ##    Create markdown file with yyyymmdd_title.md filename
 ##    Populate any metadata and title info in the new file
 ##    Open the file in $EDITOR
+postcount=$(ls markdown/blog/*.md | wc -l)
+ten_posts="[<--post-name-->](https://alexnorman.xyz/blog/<--post-address-->.html) - <--post-date-->"
+top_post="[<--top-name-->](https://alexnorman.xyz/blog/<--top-address-->.html) - <--top-date-->"
+top_blurb="><--top-text-->… [read more](https://alexnorman.xyz/blog/<--top-address-->.html"
+
+rm -rf thing.md
+
+top=$(ls -r markdown/blog/*.md | sed 1q)
+top_title=$(head -1 "$top" | sed 's/^# //g')
+top_date=$(echo "$file_base" | sed "s/_.*//g" | date -d - "+%B %d, %Y")
+
+top_list=$(echo "$top_post" | sed -e "s/<--top-name-->/$top_title/g")
+echo "$top_list<br><br>" >> thing.md
+
+for file in $(ls -r markdown/blog/*.md | tail -$(expr $postcount - 1)); do
+    title=$(head -1 $file | sed 's/^# //g')
+    file_base=$(basename "${file%.*}")
+    pub_date=$(echo "$file_base" | sed 's/_.*//g' | date -d - "+%B %d, %Y")
+    list=$(echo "$ten_posts" | sed -e "s/<--post-name-->/$title/g" -e "s/<--post-address-->/$file_base/g" -e "s/<--post-date-->/$pub_date/g")
+    echo "$list<br><br>" >> thing.md
+done
 
 case "$1" in
     n*) printf "Hello Alex\\n" ;; #run the function to make a draft post
-    p*) ;; #list the draft posts, make selection, run the make_html function
+    p*) echo "$ten_posts<br><br>$top_post" > thing.md ;; #list the draft posts, make selection, run the make_html function
     u*) ;; #list the main pages, make selection, run the $EDITOR on selection
     m*) ;; #run the function to make a new section
     s*) ;; #ssh into site, git
@@ -35,4 +56,4 @@ esac
 #
 #Latest update on $(date +%d,\ %B\ %Y)" > footer.md
 #
-#pandoc -s --template dral_template.html --metadata title="~acn" --metadata author="Alex Norman" --variable homepage:"https://dralexnorman.net" --section-divs --css https://www.dralexnorman.net/tilde.css --include-before header.html --include-before icons.html markdown/home.md markdown/while-youre-here.md markdown/contact.md markdown/footer.md -o public/index.html
+pandoc -s --template dral_template.html --metadata title="~acn" --metadata author="Alex Norman" --variable homepage:"https://alexnorman.xyz" --section-divs --css https://www.alexnorman.xyz/tilde.css --include-before header.html --include-before icons.html markdown/home.md markdown/while-youre-here.md markdown/contact.md markdown/footer.md -o public/index.html

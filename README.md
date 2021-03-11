@@ -6,7 +6,6 @@ Sorry.
 
 ## Things I want to do
 
-* DONE add a rolling blog to the index;
 * DONE make the index page a bit more purposeful;
 * add a resources page;
 * add a teaching page;
@@ -14,6 +13,7 @@ Sorry.
 * make a shell script to add, edit, and delete pages.
 * DONE add an rss capability
 * set up a cronjob on the site to look for git commits and git pull when there is a new one
+* make a makefile to make the site
 
 ---
 
@@ -36,11 +36,17 @@ Sorry.
     Title hyperlinked to post page
 
     | block quote opening few lines
+
+    pandoc -s --template dral_template.html --metadata title="~acn" --metadata author="Alex Norman" --variable homepage:"https://dralexnorman.xyz" --section-divs --css ../tilde.css --include-before header.html --include-before icons.html markdown/blog/20200422_blastula-for-emailing-feedback.md markdown/footer.md -o public/blog/20200422_blastula-for-emailing-feedback.html
 ```
 
-1. check for new or updated files
-2. run pandoc on new files
-3. rsync to alexnorman.xyz
+* make the html files for blog posts
+* make the html files for other pages and subpages
+* create a list of latest 10 posts by filename prefix
+* for the latest one, title into hyperlink (sed 1q `filename`)
+* update 'while you're here...'
+
+
 
 ### Repo structure
 

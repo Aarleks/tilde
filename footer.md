@@ -7,4 +7,4 @@ Made in [Vim](https://www.vim.org)/[Neovim](https://neovim.io/) and the Shell wi
 
 &copy; 2016-2020 Alex Norman
 
-Latest update on 05, May 2020
+Latest update on 09, February 2021
